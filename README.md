@@ -15,7 +15,7 @@
 1. Register at your gateway's **Provider** portal (`/provider/`).
 2. On this machine:
    ```bash
-   export GATEWAY_URL=https://llm.cryptocomputer.ca
+   export GATEWAY_URL=https://providers.cryptocomputer.ca
    docker compose up -d
    ```
 3. The agent prints an approve link — open it **while signed in** on Provider.
