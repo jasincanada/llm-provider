@@ -1,0 +1,20 @@
+{
+  "cli.handshake.started": "ਪ੍ਰੋਵਾਈਡਰ ਹੈਂਡਸ਼ੇਕ ਸ਼ੁਰੂ ਹੋਇਆ।",
+  "cli.handshake.device_id": "  device_id: {device_id}",
+  "cli.handshake.open_connect": "  ਪ੍ਰੋਵਾਈਡਰ 'ਤੇ ਸਾਈਨ ਇਨ ਕਰਕੇ ਖੋਲ੍ਹੋ: {url}",
+  "cli.handshake.waiting": "  ਮਨਜ਼ੂਰੀ ਦੀ ਉਡੀਕ…",
+  "cli.handshake.poll_http": "ਹੈਂਡਸ਼ੇਕ ਪੋਲ HTTP {code}",
+  "cli.handshake.poll_unreachable": "ਹੈਂਡਸ਼ੇਕ ਪਹੁੰਚਯੋਗ ਨਹੀਂ: {error}",
+  "cli.handshake.expired": "ਹੈਂਡਸ਼ੇਕ ਮਿਆਦ ਪੁੱਗੀ — ਏਜੰਟ ਦੁਬਾਰਾ ਚਾਲੂ ਕਰੋ",
+  "cli.handshake.approved": "ਹੈਂਡਸ਼ੇਕ ਮਨਜ਼ੂਰ — ਕ੍ਰੈਡੈਂਸ਼ਲ ਆਪਣੇ ਆਪ ਮਿਲੇ",
+  "cli.auth.inw_required": "INW_TOKEN ਜਾਂ HANDSHAKE=1 ਲੋੜੀਂਦਾ ਹੈ",
+  "cli.auth.invalid_token": "ਅਵੈਧ ਵਰਕਰ ਟੋਕਨ",
+  "cli.startup.config": "gateway={gateway} ollama={ollama} enroll_docker={enroll} enroll_lan_fallback={fallback}",
+  "cli.enroll.success": "ਦਾਖਲ slug={slug} base_url={base_url}",
+  "cli.enroll.skipped": "ਦਾਖਲਾ ਛੱਡਿਆ ਜਾਂ ਅਸਫਲ: {body}",
+  "cli.enroll.http_error": "ਦਾਖਲਾ HTTP {code}: {body}",
+  "cli.enroll.unreachable": "ਦਾਖਲਾ ਪਹੁੰਚਯੋਗ ਨਹੀਂ: {error}",
+  "cli.heartbeat.ok": "ਹਾਰਟਬੀਟ ਠੀਕ models={count} healthy={healthy}",
+  "cli.heartbeat.http_error": "ਹਾਰਟਬੀਟ HTTP {code}: {body}",
+  "cli.heartbeat.unreachable": "ਹਾਰਟਬੀਟ ਪਹੁੰਚਯੋਗ ਨਹੀਂ: {error}"
+}

@@ -1,0 +1,11 @@
+# Symlink contract — canonical registry lives in llm-gateway
+# Sync: copy from jasincanada/llm-gateway tag locales/registry.yaml
+
+meta:
+  note: "Parity with llm-gateway locales/registry.yaml — issue #207 (61 locales)"
+  upstream: "https://github.com/jasincanada/llm-gateway/blob/main/locales/registry.yaml"
+  target_locales:
+    [en, fr-CA, fr, es, it,
+     pa, hi, ur, bn, te, mr, ta, gu, kn, ml, or, as, brx, doi, ks, kok, mai, mni, ne, sa, sat, sd, bho,
+     zh, yue, ar, de, pt, vi, ko, ru, pl, uk, fa, fil, ht, ja, el, he, nl, so, am, tr, hm, km,
+     cr, oj, iu, nv, chr, mic, moh, bla, lkt, dak, haw]

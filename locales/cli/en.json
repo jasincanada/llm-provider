@@ -1,0 +1,20 @@
+{
+  "cli.handshake.started": "Provider handshake started.",
+  "cli.handshake.device_id": "  device_id: {device_id}",
+  "cli.handshake.open_connect": "  While signed in on Provider, open: {url}",
+  "cli.handshake.waiting": "  Waiting for approval…",
+  "cli.handshake.poll_http": "handshake poll HTTP {code}",
+  "cli.handshake.poll_unreachable": "handshake poll unreachable: {error}",
+  "cli.handshake.expired": "handshake expired — restart agent",
+  "cli.handshake.approved": "handshake approved — credentials received automatically",
+  "cli.auth.inw_required": "INW_TOKEN or HANDSHAKE=1 required",
+  "cli.auth.invalid_token": "invalid worker token",
+  "cli.startup.config": "gateway={gateway} ollama={ollama} enroll_docker={enroll} enroll_lan_fallback={fallback}",
+  "cli.enroll.success": "enrolled slug={slug} base_url={base_url}",
+  "cli.enroll.skipped": "enroll skipped or failed: {body}",
+  "cli.enroll.http_error": "enroll HTTP {code}: {body}",
+  "cli.enroll.unreachable": "enroll unreachable: {error}",
+  "cli.heartbeat.ok": "heartbeat ok models={count} healthy={healthy}",
+  "cli.heartbeat.http_error": "heartbeat HTTP {code}: {body}",
+  "cli.heartbeat.unreachable": "heartbeat unreachable: {error}"
+}

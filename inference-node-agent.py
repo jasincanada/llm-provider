@@ -27,6 +27,8 @@ import urllib.request
 from pathlib import Path
 from urllib.parse import urlparse
 
+from cli_i18n import t
+
 TOKEN_FILE = Path(os.environ.get("INW_TOKEN_FILE", "/data/inw_token"))
 
 
@@ -130,10 +132,10 @@ def _handshake_acquire_token(gateway: str, device_id: str) -> str:
         body={"device_id": device_id, "agent_label": label},
     )
     connect_hint = f"{gateway.rstrip('/')}/provider/#/connect?device={device_id}"
-    print("Provider handshake started.")
-    print(f"  device_id: {device_id}")
-    print(f"  While signed in on Provider, open: {connect_hint}")
-    print("  Waiting for approval…")
+    print(t("cli.handshake.started"))
+    print(t("cli.handshake.device_id", device_id=device_id))
+    print(t("cli.handshake.open_connect", url=connect_hint))
+    print(t("cli.handshake.waiting"))
 
     while True:
         try:
@@ -143,24 +145,24 @@ def _handshake_acquire_token(gateway: str, device_id: str) -> str:
                 gateway_url=gateway,
             )
         except urllib.error.HTTPError as exc:
-            print(f"handshake poll HTTP {exc.code}", file=sys.stderr)
+            print(t("cli.handshake.poll_http", code=exc.code), file=sys.stderr)
             time.sleep(5)
             continue
         except urllib.error.URLError as exc:
-            print(f"handshake poll unreachable: {exc}", file=sys.stderr)
+            print(t("cli.handshake.poll_unreachable", error=exc), file=sys.stderr)
             time.sleep(5)
             continue
 
         state = status.get("status", "")
         if state == "expired":
-            print("handshake expired — restart agent", file=sys.stderr)
+            print(t("cli.handshake.expired"), file=sys.stderr)
             raise SystemExit(1)
         if state == "enrolled" and _load_saved_token():
             return _load_saved_token()
         token = status.get("worker_token", "")
         if token and token.startswith("inw_"):
             _save_token(token)
-            print("handshake approved — credentials received automatically")
+            print(t("cli.handshake.approved"))
             return token
         time.sleep(3)
 
@@ -172,7 +174,7 @@ def _resolve_token(gateway: str) -> tuple[str, str]:
         return token, device_id
     use_handshake = _env("HANDSHAKE", "1") not in ("0", "false", "no")
     if not use_handshake:
-        print("INW_TOKEN or HANDSHAKE=1 required", file=sys.stderr)
+        print(t("cli.auth.inw_required"), file=sys.stderr)
         raise SystemExit(1)
     device_id = _device_id()
     token = _handshake_acquire_token(gateway, device_id)
@@ -191,7 +193,7 @@ def main() -> int:
 
     token, device_id = _resolve_token(gateway)
     if not token.startswith("inw_"):
-        print("invalid worker token", file=sys.stderr)
+        print(t("cli.auth.invalid_token"), file=sys.stderr)
         return 1
 
     vram_raw = _env("VRAM_GB")
@@ -199,8 +201,13 @@ def main() -> int:
     heartbeat_s = max(10, int(_env("HEARTBEAT_S", "30") or "30"))
 
     print(
-        f"gateway={gateway} ollama={ollama} "
-        f"enroll_docker={enroll_base} enroll_lan_fallback={enroll_fallback or '(none)'}"
+        t(
+            "cli.startup.config",
+            gateway=gateway,
+            ollama=ollama,
+            enroll=enroll_base,
+            fallback=enroll_fallback or "(none)",
+        )
     )
 
     enrolled = False
@@ -221,18 +228,24 @@ def main() -> int:
                 body=enroll_body,
                 extra_headers=extra,
             )
-            print(f"enrolled slug={result.get('slug')} base_url={result.get('base_url')}")
+            print(
+                t(
+                    "cli.enroll.success",
+                    slug=result.get("slug", ""),
+                    base_url=result.get("base_url", ""),
+                )
+            )
             enrolled = True
         except urllib.error.HTTPError as exc:
             body_text = exc.read().decode("utf-8", errors="replace")
             if exc.code == 400:
-                print(f"enroll skipped or failed: {body_text}")
+                print(t("cli.enroll.skipped", body=body_text))
                 enrolled = True
             else:
-                print(f"enroll HTTP {exc.code}: {body_text}", file=sys.stderr)
+                print(t("cli.enroll.http_error", code=exc.code, body=body_text), file=sys.stderr)
                 time.sleep(min(heartbeat_s, 30))
         except urllib.error.URLError as exc:
-            print(f"enroll unreachable: {exc}", file=sys.stderr)
+            print(t("cli.enroll.unreachable", error=exc), file=sys.stderr)
             time.sleep(min(heartbeat_s, 30))
 
     while True:
@@ -249,14 +262,18 @@ def main() -> int:
                 gateway_url=gateway,
                 body=body,
             )
-            print(f"heartbeat ok models={len(models)} healthy={healthy}")
+            print(t("cli.heartbeat.ok", count=len(models), healthy=healthy))
         except urllib.error.HTTPError as exc:
             print(
-                f"heartbeat HTTP {exc.code}: {exc.read().decode('utf-8', errors='replace')}",
+                t(
+                    "cli.heartbeat.http_error",
+                    code=exc.code,
+                    body=exc.read().decode("utf-8", errors="replace"),
+                ),
                 file=sys.stderr,
             )
         except urllib.error.URLError as exc:
-            print(f"heartbeat unreachable: {exc}", file=sys.stderr)
+            print(t("cli.heartbeat.unreachable", error=exc), file=sys.stderr)
         time.sleep(heartbeat_s)
 
 
